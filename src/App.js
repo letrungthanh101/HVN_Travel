@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './App.css';
+import Home from './Pages/Home';
+import { useEffect,useState } from 'react';
+import productApi from "./Api/productApi"
 function App() {
+  const [data,setData] = useState([])
+  useEffect(()=>{
+    const fetchProducts = async () =>{
+      const params = {
+        _limit: 10
+      }
+      const productList = await productApi.getAll(params);
+      console.log(productList)
+      setData(productList)
+    }
+    fetchProducts()
+  },[])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Home/>
+      <ul>
+        {data.map((item)=>{
+          return <li key = {item.id}> Tên sản phẩm: {item.name} - Mã sản phẩm: {item.id}</li>
+        })}
+      </ul>
     </div>
   );
 }
