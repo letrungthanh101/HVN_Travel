@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  baseURL: 'https://api.ezfrontend.com',
+  baseURL: 'https://ledang300744-travel.zeet.app',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -29,6 +29,16 @@ axiosClient.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    console.log("error response",error.response);
+    const {config, status,data} = error.response;
+    if ( config.url === '/auth/local/register' && status === 400) {
+      const errorList = data.data || [];
+      const firstError = errorList.length > 0 ? errorList[0] : {};
+      const messageList = firstError.message || [];
+      const firstMessage = messageList.length > 0 ? messageList[0] : {};
+
+      throw new Error (firstMessage)
+    }
     return Promise.reject(error);
   }
 );

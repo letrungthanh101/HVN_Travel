@@ -1,29 +1,30 @@
-
 import './App.css';
-import Home from './Pages/Home';
-import { useEffect,useState } from 'react';
-import productApi from "./Api/productApi"
+
+import React from 'react';
+import Footer from './Components/Footer';
+import Header from './Components/Header';
+// import NotFound from './Components/NotFound';
+import { Redirect, Route, Switch } from 'react-router';
+
 function App() {
-  const [data,setData] = useState([])
-  useEffect(()=>{
-    const fetchProducts = async () =>{
-      const params = {
-        _limit: 10
-      }
-      const productList = await productApi.getAll(params);
-      console.log(productList)
-      setData(productList)
-    }
-    fetchProducts()
-  },[])
+  const Home = React.lazy(() => import('./Pages/Home'));
+
+  const Login = React.lazy(() => import('./Features/Auth/Login'));
+  const Register = React.lazy(() => import('./Features/Auth/Register'));
+
   return (
     <div className="App">
-      <Home/>
-      <ul>
-        {data.map((item)=>{
-          return <li key = {item.id}> Tên sản phẩm: {item.name} - Mã sản phẩm: {item.id}</li>
-        })}
-      </ul>
+      <React.Suspense fallback={<p>Loading...</p>}>
+        <Switch>
+          <Route path="/" component={Home} exact />
+          <Redirect path="/home" to="/" component={Home} exact />
+
+          <Route path="/sign-up" component={Register} exact />
+
+          <Route path="/login" component={Login} exact />
+        </Switch>
+      
+      </React.Suspense>
     </div>
   );
 }

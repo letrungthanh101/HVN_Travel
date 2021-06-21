@@ -18,6 +18,7 @@ import * as yup from 'yup';
 import InputField from '../../../Components/Form-control/InputField';
 import PasswordField from '../../../Components/Form-control/PasswordField';
 
+import "./login.css"
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -53,7 +54,9 @@ function LoginForm(props) {
 
   const schema = yup.object().shape({
     email: yup.string().required('Please enter your email').email('Please enter valid your email'),
-    passWord: yup.string().required('Please enter your password').min(6, 'Please enter at least 6 character.'),
+    passWord: yup.string().required('Please enter your password')
+    .min(6, 'Please enter at least 6 character.')
+    .max(50, 'Please enter up to 50 characters'),
   });
   const form = useForm({
     defaultValues: {
@@ -73,7 +76,7 @@ function LoginForm(props) {
   };
 
   return (
-    <div>
+    <div className="login__form">
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -90,14 +93,19 @@ function LoginForm(props) {
             <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
               Sign In
             </Button>
-            <p className="text-center">Or login with social account</p>
+          
             <Grid container>
-              <Grid item xs = {12}>
-                <Link to="/" variant="body2">
-                  Forgot password?
+              <Grid item xs={12}>
+                <Link to="/resetpassword" variant="body2">
+                  Reset password ?
                 </Link>
               </Grid>
-              <Grid item  xs = {12}>
+              <Grid item xs={12}>
+                <Link to="/forgotpassword" variant="body2">
+                  Forgot password ?
+                </Link>
+              </Grid>
+              <Grid item xs={12}>
                 <Link to="/sign-up" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>

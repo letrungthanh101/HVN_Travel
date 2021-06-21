@@ -39,8 +39,8 @@ function Header(props) {
           </Button>
         </DialogActions>
       </Dialog>
-{/* 
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+
+      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Login
       </Button>
 

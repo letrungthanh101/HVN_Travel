@@ -48,7 +48,11 @@ export default function RegisterForm(props) {
         return value.split('').length >= 2;
       }),
     email: yup.string().required('Please enter your email').email('Please enter valid your email'),
-    passWord: yup.string().required('Please enter your password').min(6, 'Please enter at least 6 character.'),
+    passWord: yup
+      .string()
+      .required('Please enter your password')
+      .min(6, 'Please enter at least 6 character.')
+      .max(50, 'Please enter up to 50 characters'),
     confirmPassword: yup
       .string()
       .required('Please retype password')
@@ -71,12 +75,12 @@ export default function RegisterForm(props) {
     resolver: yupResolver(schema),
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     const { onSubmit } = props;
     if (onSubmit) {
-      onSubmit(values);
+      await onSubmit(values);
     }
-    form.reset();
+    // form.reset();
   };
   // handleSubmit là func  có sẵn từ useForm
   return (
@@ -87,12 +91,12 @@ export default function RegisterForm(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-       Register
+          Register
         </Typography>
         <form className={classes.form} noValidate onSubmit={form.handleSubmit(handleSubmit)}>
           <InputField name="fullName" label="Full Name" form={form} />
           <InputField name="email" label="Email" form={form} />
-          <InputField name="phoneNumber" label="Phone Number" form={form} />
+          {/* <InputField name="phoneNumber" label="Phone Number" form={form} /> */}
           <PasswordField name="passWord" label="Password" form={form} />
           <PasswordField name="confirmPassword" label="Confirm Password" form={form} />
 
@@ -101,7 +105,7 @@ export default function RegisterForm(props) {
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Create account
           </Button>
-          <Grid container justify="flex-center">
+          <Grid container justify="center">
             <Grid item>
               <Link to="/login" variant="body2">
                 Already have an account? Sign in
