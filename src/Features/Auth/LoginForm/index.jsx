@@ -18,7 +18,7 @@ import * as yup from 'yup';
 import InputField from '../../../Components/Form-control/InputField';
 import PasswordField from '../../../Components/Form-control/PasswordField';
 
-import "./login.css"
+import './login.css';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -53,26 +53,32 @@ function LoginForm(props) {
   const classes = useStyles();
 
   const schema = yup.object().shape({
-    email: yup.string().required('Please enter your email').email('Please enter valid your email'),
-    passWord: yup.string().required('Please enter your password')
-    .min(6, 'Please enter at least 6 character.')
-    .max(50, 'Please enter up to 50 characters'),
+    // email: yup.string().required('Please enter your email').email('Please enter valid your email'),
+    passWord: yup
+      .string()
+      .required('Please enter your password')
+      .min(6, 'Please enter at least 6 character.')
+      .max(50, 'Please enter up to 50 characters'),
+    userName: yup.string().required('Please enter your user name'),
   });
   const form = useForm({
     defaultValues: {
-      email: '',
+      // email: '',
       passWord: '',
+      userName: '',
     },
 
     resolver: yupResolver(schema),
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     const { onSubmit } = props;
     if (onSubmit) {
-      onSubmit(values);
+    await  onSubmit(values);
+      console.log(values);
     }
-    form.reset();
+
+    // form.reset();
   };
 
   return (
@@ -87,13 +93,13 @@ function LoginForm(props) {
             Sign in
           </Typography>
           <form className={classes.form} noValidate onSubmit={form.handleSubmit(handleSubmit)}>
-            <InputField name="email" label="Email" form={form} />
+            <InputField name="userName" label="User name" form={form} />
             <PasswordField name="passWord" label="Password" form={form} />
             <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
             <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
               Sign In
             </Button>
-          
+
             <Grid container>
               <Grid item xs={12}>
                 <Link to="/resetpassword" variant="body2">

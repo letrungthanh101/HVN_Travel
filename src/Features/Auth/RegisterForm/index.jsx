@@ -8,6 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
@@ -16,6 +17,7 @@ import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import InputField from '../../../Components/Form-control/InputField';
 import PasswordField from '../../../Components/Form-control/PasswordField';
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -38,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function RegisterForm(props) {
+  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   const classes = useStyles();
 
   const schema = yup.object().shape({
@@ -62,6 +70,8 @@ export default function RegisterForm(props) {
       .required('Please enter you phone numbers')
       .typeError('Enter valid your phone number')
       .min(10, 'Your phone number invalid'),
+    birthDay: yup.string().required('Please enter your birthday'),
+    userName: yup.string().required('Please enter you user name')
   });
   const form = useForm({
     defaultValues: {
@@ -70,6 +80,8 @@ export default function RegisterForm(props) {
       phoneNumber: '',
       passWord: '',
       confirmPassword: '',
+      birthDay: '',
+      userName:''
     },
 
     resolver: yupResolver(schema),
@@ -79,6 +91,7 @@ export default function RegisterForm(props) {
     const { onSubmit } = props;
     if (onSubmit) {
       await onSubmit(values);
+      console.log(values);
     }
     // form.reset();
   };
@@ -95,8 +108,11 @@ export default function RegisterForm(props) {
         </Typography>
         <form className={classes.form} noValidate onSubmit={form.handleSubmit(handleSubmit)}>
           <InputField name="fullName" label="Full Name" form={form} />
+          <InputField name="userName" label="User Name" form={form} />
           <InputField name="email" label="Email" form={form} />
-          {/* <InputField name="phoneNumber" label="Phone Number" form={form} /> */}
+          <InputField name="birthDay" label="Birth Day" form={form} />
+
+          <InputField name="phoneNumber" label="Phone Number" form={form} />
           <PasswordField name="passWord" label="Password" form={form} />
           <PasswordField name="confirmPassword" label="Confirm Password" form={form} />
 

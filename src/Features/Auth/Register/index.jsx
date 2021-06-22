@@ -28,7 +28,7 @@ function Register(props) {
       console.log('failed to register', error.message);
       enqueueSnackbar(error.message,{variant: 'error'});
     }
-    console.log('hello');
+    
   };
 
   return (

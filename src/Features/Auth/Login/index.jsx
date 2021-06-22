@@ -10,19 +10,17 @@ export default function Login(props) {
   const dispatch = useDispatch();
   const handleSubmit = async (values) => {
     try {
-      //auto set username = email
-      values.username = values.email;
+ 
       console.log('form submit', values);
-      // const action = login(values);
-      // const resultAction = await dispatch(action);
-      // const user = unwrapResult(resultAction);
-      // console.log(user);
-      // // const { closeDialog } = props;
-      // // if (closeDialog) {
-      // //   closeDialog();
-      // // }
-      // enqueueSnackbar('Login successfully !!! ', { variant: 'success' });
-    
+      const action = login(values);
+      const resultAction = await dispatch(action);
+      const user = unwrapResult(resultAction);
+      console.log(user);
+      // const { closeDialog } = props;
+      // if (closeDialog) {
+      //   closeDialog(c           );
+      // }
+      enqueueSnackbar('Login successfully !!! ', { variant: 'success' });
     } catch (error) {
       console.log('failed to register', error.message);
       enqueueSnackbar(error.message, { variant: 'error' });

@@ -10,6 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useState } from 'react';
 import Register from "../../Features/Auth/Register"
 import Login from "../../Features/Auth/Login"
+import DetailTour from "../DetailTour"
 Header.propTypes = {};
 
 function Header(props) {
@@ -39,7 +40,7 @@ function Header(props) {
           </Button>
         </DialogActions>
       </Dialog>
-
+    <Login/>
       {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Login
       </Button>
@@ -55,7 +56,7 @@ function Header(props) {
           </Button>
         </DialogActions>
       </Dialog> */}
-
+  <DetailTour/>
 
 
     </div>
